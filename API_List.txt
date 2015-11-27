@@ -1,0 +1,63 @@
+/**** 정보 얻어가기 ****/
+
+/* 유저 정보 가저오기 */
+/api/user/:userId
+{
+  name: "김성준",
+  cash: "9950",
+  tel: "010-1111-11111",
+  email: "123123@adsf.com",
+  requested: [
+    {
+      printId: "518",
+      userId: "123",
+      state: "ready"
+    },
+    {
+      printId: "518",
+      userId: "123",
+      state: "ready"
+    }
+  ]
+}
+
+/* 인쇄소 정보 가져오기 */
+/api/press/:pressId
+{
+  name: "IT/BT",
+  requested: [
+    {
+      printId: "518",
+      userId: "123",
+      name: "김성준",
+      state: "ready" // 인쇄 준비됨
+    },
+    {
+      printId: "518",
+      userId: "123",
+      name: "김성준",
+      state: "completed", // 완료됨
+    },
+    {
+      printId: "518",
+      userId: "123",
+      name: "김성준",
+      state: "rejected", // 거절됨
+    },
+  ]
+}
+
+/* 프린트 요청 개별 세부 정보 */
+/api/print/:printId
+{
+  printId: "518",
+  userId: "123",
+  name: "김성준",
+  memo: "1부 인쇄 해 주세요",
+  file: "http://...",
+  state: "ready",
+}
+
+/**** 정보 보내기 ****/
+/* 프린트 상태 설정 */
+/api/printed/:printId/:state
