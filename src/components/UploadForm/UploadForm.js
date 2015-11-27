@@ -1,55 +1,46 @@
 import React, {Component, PropTypes} from 'react';
+// import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import surveyValidation from './surveyValidation';
+import uploadValidation from './uploadValidation';
+// import connectData from 'helpers/connectData';
+// import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
 
-function asyncValidate(data) {
-  // TODO: figure out a way to move this to the server. need an instance of ApiClient
-  if (!data.email) {
-    return Promise.resolve({});
+/*
+function fetchData(getState, dispatch) {
+  const promises = [];
+  if (!isAuthLoaded(getState())) {
+    promises.push(dispatch(loadAuth()));
   }
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const errors = {};
-      let valid = true;
-      if (~['bobby@gmail.com', 'timmy@microsoft.com'].indexOf(data.email)) {
-        errors.email = 'Email address already used';
-        valid = false;
-      }
-      if (valid) {
-        resolve();
-      } else {
-        reject(errors);
-      }
-    }, 1000);
-  });
+  return Promise.all(promises);
 }
 
+@connectData(fetchData)
+@connect(
+  state => ({user: state.auth.user}),
+  {logout})*/
 @reduxForm({
-  form: 'survey',
-  fields: ['name', 'email', 'occupation', 'currentlyEmployed', 'sex'],
-  validate: surveyValidation,
-  asyncValidate,
-  asyncBlurFields: ['email']
+  form: 'upload',
+  fields: ['name', 'memo', 'file'],
+  validate: uploadValidation,
 })
 export default
-class SurveyForm extends Component {
+class UploadForm extends Component {
   static propTypes = {
     active: PropTypes.string,
-    asyncValidating: PropTypes.bool.isRequired,
     fields: PropTypes.object.isRequired,
     dirty: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
-    valid: PropTypes.bool.isRequired
+    valid: PropTypes.bool.isRequired,
+    user: PropTypes.object,
   }
 
   render() {
     const {
-      asyncValidating,
       dirty,
-      fields: {name, email, occupation, currentlyEmployed, sex},
+      fields: {name, memo, file},
       active,
       handleSubmit,
       invalid,
@@ -57,12 +48,11 @@ class SurveyForm extends Component {
       pristine,
       valid
       } = this.props;
-    const styles = require('./SurveyForm.scss');
-    const renderInput = (field, label, showAsyncValidating) =>
+    const styles = require('./UploadForm.scss');
+    const renderInput = (field, label) =>
       <div className={'form-group' + (field.error && field.touched ? ' has-error' : '')}>
         <label htmlFor={field.name} className="col-sm-2">{label}</label>
         <div className={'col-sm-8 ' + styles.inputGroup}>
-          {showAsyncValidating && asyncValidating && <i className={'fa fa-cog fa-spin ' + styles.cog}/>}
           <input type="text" className="form-control" id={field.name} {...field}/>
           {field.error && field.touched && <div className="text-danger">{field.error}</div>}
           <div className={styles.flags}>
@@ -74,33 +64,29 @@ class SurveyForm extends Component {
         </div>
       </div>;
 
+    console.log(handleSubmit);
+
     return (
       <div>
         <form className="form-horizontal" onSubmit={handleSubmit}>
-          {renderInput(name, 'Full Name')}
-          {renderInput(email, 'Email', true)}
-          {renderInput(occupation, 'Occupation')}
+          {renderInput(name, '이름')}
+          {renderInput(memo, 'Memo')}
           <div className="form-group">
-            <label htmlFor="currentlyEmployed" className="col-sm-2">Currently Employed?</label>
-            <div className="col-sm-8">
-              <input type="checkbox" id="currentlyEmployed" {...currentlyEmployed}/>
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="col-sm-2">Sex</label>
-            <div className="col-sm-8">
-              <input type="radio" id="sex-male" {...sex} value="male" checked={sex.value === 'male'}/>
-              <label htmlFor="sex-male" className={styles.radioLabel}>Male</label>
-              <input type="radio" id="sex-female" {...sex} value="female" checked={sex.value === 'female'}/>
-              <label htmlFor="sex-female" className={styles.radioLabel}>Female</label>
-            </div>
+            <label className="col-sm-2">File</label>
+            <span className="btn btn-primary btn-file">
+              <span className="fileupload-new">Select file</span>
+              <span className="fileupload-exists">Change</span>
+              <input type="file" id="file" {...file}/>
+            </span>
+            <span className="fileupload-preview"></span>
+            <a href="#" className="close fileupload-exists" data-dismiss="fileupload" styles={{float: 'none'}}>×</a>
           </div>
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
               <button className="btn btn-success" onClick={handleSubmit}>
                 <i className="fa fa-paper-plane"/> Submit
               </button>
-              <button className="btn btn-warning" onClick={resetForm} style={{marginLeft: 15}}>
+              <button className="btn btn-warning" onClick={resetForm} styles={{marginLeft: 15}}>
                 <i className="fa fa-undo"/> Reset
               </button>
             </div>
