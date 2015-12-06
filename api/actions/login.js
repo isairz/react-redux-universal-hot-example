@@ -1,4 +1,5 @@
 import passport from 'passport';
+import userApi from './user';
 
 export default function login(req) {
   return new Promise((resolve, reject) => {
@@ -12,8 +13,10 @@ export default function login(req) {
           reject(err);
           return;
         }
-        resolve(user);
-      })
+        userApi(req)
+        .then(resolve)
+        .catch(reject);
+      });
     })(req);
   });
 }

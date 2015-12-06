@@ -19,10 +19,11 @@ function formatUrl(path) {
  *
  * Remove it at your own risk.
  */
+
 class _ApiClient {
   constructor(req) {
     methods.forEach((method) =>
-      this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
+      this[method] = (path, { params, data, form } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
 
         if (params) {
@@ -35,6 +36,21 @@ class _ApiClient {
 
         if (data) {
           request.send(data);
+        }
+
+        if (form) {
+          for (const key in form) {
+            if ({}.hasOwnProperty.call(form, key)) {
+              const value = form[key];
+
+              if (value instanceof FileList) {
+                const file = Array.from(value)[0]; // FIXME
+                request.attach('file', file, file.name);
+              } else {
+                request.field(key, value);
+              }
+            }
+          }
         }
 
         request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));

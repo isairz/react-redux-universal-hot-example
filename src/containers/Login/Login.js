@@ -43,18 +43,12 @@ export default class Login extends Component {
         <h1>Login</h1>
         {!user &&
         <div>
-          <form className="login-form form-horizontal" onSubmit={this.handleSubmit}>
+          <form className="login-form" style={{maxWidth: 520}} onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <label htmlFor="username" className="col-sm-1 control-label">아이디</label>
-              <div className="col-sm-2">
-                <input type="text" ref="username" placeholder="ID" className="form-control"/>
-              </div>
+              <input type="text" ref="username" placeholder="아이디" className="form-control"/>
             </div>
             <div className="form-group">
-              <label htmlFor="password" className="col-sm-1 control-label">비밀번호</label>
-              <div className="col-sm-2">
-                <input type="password" ref="password" placeholder="Password" className="form-control"/>
-              </div>
+              <input type="password" ref="password" placeholder="비밀번호" className="form-control"/>
             </div>
             <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
             </button>

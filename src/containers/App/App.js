@@ -44,7 +44,7 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
-      this.props.pushState(null, '/loginSuccess');
+      this.props.pushState(null, '/upload');
     } else if (this.props.user && !nextProps.user) {
       // logout
       this.props.pushState(null, '/');
@@ -92,7 +92,7 @@ export default class App extends Component {
               </LinkContainer>}
             </Nav>
             {user &&
-            <p className={styles.loggedInMessage + ' navbar-text'}><strong>{user.nicname || user.username}</strong>님,  잔액: {user.cash}원</p>}
+            <p className={styles.loggedInMessage + ' navbar-text'}><strong>{user.nickname || user.username}</strong>님,  잔액: {user.cash}원</p>}
           </CollapsibleNav>
         </Navbar>
 

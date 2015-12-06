@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import multer from 'multer';
 import flash from 'express-flash';
 import config from '../src/config';
 import * as actions from './actions/index';
@@ -10,6 +11,7 @@ import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
 import Account from './models/account';
+import Print from './models/print';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
@@ -28,7 +30,7 @@ app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 60*60*24*365 } // a year
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -39,6 +41,27 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 mongoose.connect('mongodb://localhost/passport_local_mongoose');
+
+const upload = multer({ dest: 'uploads/' });
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.user) {
+    res.status(404).end();
+    return;
+  }
+  const print = new Print({
+    username: req.user.username,
+    nickname: req.user.nickname,
+    memo: req.body.memo,
+    press: req.body.press,
+    path: req.file.path,
+    originalName: req.file.originalname,
+    state: 'ready',
+    date: new Date(),
+  });
+  print.save(() => {
+    res.status(200).end();
+  });
+});
 
 app.use((req, res) => {
   const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);
@@ -54,7 +77,9 @@ app.use((req, res) => {
           res.json(result);
         }
       }, (reason) => {
-        if (reason && reason.redirect) {
+        if (reason && reason instanceof Error) {
+          res.status(500).end(reason.message);
+        } else if (reason && reason.redirect) {
           res.redirect(reason.redirect);
         } else {
           console.error('API ERROR:', pretty.render(reason));

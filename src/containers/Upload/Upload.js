@@ -4,32 +4,40 @@ import DocumentMeta from 'react-document-meta';
 import {initialize} from 'redux-form';
 import {UploadForm} from 'components';
 import config from '../../config';
+import { load as loadAuth } from 'redux/modules/auth';
+import * as printActions from 'redux/modules/print';
+import TimeAgo from 'react-timeago';
 
 @connect(
-  () => ({}),
-  {initialize})
+  state => ({
+    print: state.print,
+    user: state.auth.user,
+  }),
+  {initialize, loadAuth, ...printActions})
 export default class Upload extends Component {
   static propTypes = {
-    initialize: PropTypes.func.isRequired
+    initialize: PropTypes.func.isRequired,
+    loadAuth: PropTypes.func,
+    upload: PropTypes.func,
+    print: PropTypes.object,
+    user: PropTypes.object,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.print.uploading && !nextProps.print.uploading) {
+      this.props.loadAuth();
+    }
   }
 
   handleSubmit = (data) => {
-    fetch('/users', {
-      method: 'post',
-      body: new FormData(data),
-    });
-    this.props.initialize('upload', {});
-  }
-
-  handleInitialize = () => {
-    this.props.initialize('upload', {
-      name: '태크노경영학',
-      memo: '1부 인쇄해 주세요',
-      file: '',
-    });
+    console.log(data);
+    /* data.file = Array.from(data.file).map(file => file.name).join(', ') || 'No Files Selected'; */
+    this.props.upload(data);
+    // this.props.initialize('upload', {});
   }
 
   render() {
+    const {user} = this.props;
     return (
       <div className="container">
         <h1>Upload</h1>
@@ -39,13 +47,26 @@ export default class Upload extends Component {
           출력하고 싶은 파일을 업로드 하고 메시지를 남기세요.
         </p>
 
-        <div style={{textAlign: 'center', margin: 15}}>
-          <button className="btn btn-primary" onClick={this.handleInitialize}>
-            <i className="fa fa-pencil"/> Initialize Form
-          </button>
-        </div>
-
         <UploadForm onSubmit={this.handleSubmit}/>
+
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>요청시간</th>
+              <th>인쇄소</th>
+              <th>파일명</th>
+              <th>상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            {user && user.requested.map(request => (<tr>
+              <td><TimeAgo date={request.date}/></td>
+              <td>{{'hanpl': '한양프라자', 'ilgong': '제1공학관'}[request.press]}</td>
+              <td>{request.filename}</td>
+              <td>{request.state}</td>
+            </tr>))}
+          </tbody>
+        </table>
       </div>
     );
   }

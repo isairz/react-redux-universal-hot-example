@@ -1,11 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import config from '../../config';
+import { Register } from 'containers';
 
+@connect(
+  state => ({
+    user: state.auth.user,
+  }),
+  {})
 export default class Home extends Component {
+  static propTypes = {
+    user: PropTypes.object,
+  };
   render() {
     const styles = require('./Home.scss');
     // require the logo image both from client and server
     const logoImage = require('./logo.png');
+    const {user} = this.props;
     return (
       <div className={styles.home}>
         <div className={styles.masthead}>
@@ -31,6 +42,7 @@ export default class Home extends Component {
             </dd>
           </dl>
         </div>
+        {!user && <Register />}
       </div>
     );
   }

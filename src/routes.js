@@ -5,12 +5,9 @@ import {
     App,
     Chat,
     Home,
-    Widgets,
-    About,
     Register,
     Login,
     LoginSuccess,
-    Survey,
     Upload,
     NotFound,
   } from 'containers';
@@ -45,15 +42,12 @@ export default (store) => {
       <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
+        <Route path="upload" component={Upload}/>
       </Route>
 
       { /* Routes */ }
-      <Route path="about" component={About}/>
       <Route path="register" component={Register}/>
       <Route path="login" component={Login}/>
-      <Route path="survey" component={Survey}/>
-      <Route path="widgets" component={Widgets}/>
-      <Route path="upload" component={Upload}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
