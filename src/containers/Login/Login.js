@@ -5,20 +5,33 @@ import * as authActions from 'redux/modules/auth';
 import config from '../../config';
 
 @connect(
-  state => ({user: state.auth.user}),
+  state => ({
+    auth: state.auth,
+    user: state.auth.user
+  }),
   authActions)
 export default class Login extends Component {
   static propTypes = {
+    auth: PropTypes.object,
     user: PropTypes.object,
     login: PropTypes.func,
     logout: PropTypes.func
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.auth.loggingIn && !nextProps.user) {
+      // Login failure
+      this.setState({
+        loginFailure: true,
+      });
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    const input = this.refs.username;
-    this.props.login(input.value);
-    input.value = '';
+    const username = this.refs.username.value;
+    const password = this.refs.password.value;
+    this.props.login(username, password);
   }
 
   render() {
@@ -30,14 +43,27 @@ export default class Login extends Component {
         <h1>Login</h1>
         {!user &&
         <div>
-          <form className="login-form form-inline" onSubmit={this.handleSubmit}>
+          <form className="login-form form-horizontal" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input type="text" ref="username" placeholder="Enter a username" className="form-control"/>
+              <label htmlFor="username" className="col-sm-1 control-label">아이디</label>
+              <div className="col-sm-2">
+                <input type="text" ref="username" placeholder="ID" className="form-control"/>
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="password" className="col-sm-1 control-label">비밀번호</label>
+              <div className="col-sm-2">
+                <input type="password" ref="password" placeholder="Password" className="form-control"/>
+              </div>
             </div>
             <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
             </button>
           </form>
-          <p>This will "log you in" as this user, storing the username in the session of the API server.</p>
+        </div>
+        }
+        {this.state && this.state.loginFailure &&
+        <div className="alert alert-danger">
+          로그인 실패. 아이디와 비밀번호를 확인해주세요.
         </div>
         }
         {user &&

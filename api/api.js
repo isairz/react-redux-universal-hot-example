@@ -1,12 +1,18 @@
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import flash from 'express-flash';
 import config from '../src/config';
 import * as actions from './actions/index';
 import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
+import Account from './models/account';
+import mongoose from 'mongoose';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 
 const pretty = new PrettyError();
 const app = express();
@@ -16,14 +22,23 @@ const server = new http.Server(app);
 const io = new SocketIo(server);
 io.path('/ws');
 
+app.use(bodyParser.json());
+app.use(cookieParser('react and redux rule!!!!'));
 app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 60000 }
 }));
-app.use(bodyParser.json());
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+mongoose.connect('mongodb://localhost/passport_local_mongoose');
 
 app.use((req, res) => {
   const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);
@@ -43,7 +58,7 @@ app.use((req, res) => {
           res.redirect(reason.redirect);
         } else {
           console.error('API ERROR:', pretty.render(reason));
-          res.status(reason.status || 500).json(reason);
+          res.status((reason && reason.status) || 500).json(reason);
         }
       });
   } else {

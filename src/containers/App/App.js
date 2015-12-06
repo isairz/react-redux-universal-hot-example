@@ -23,12 +23,16 @@ function fetchData(getState, dispatch) {
 
 @connectData(fetchData)
 @connect(
-  state => ({user: state.auth.user}),
+  state => ({
+    user: state.auth.user,
+    auth: state.auth,
+  }),
   {logout, pushState})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
+    auth: PropTypes.object,
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired
   };
@@ -68,27 +72,27 @@ export default class App extends Component {
 
           <CollapsibleNav eventKey={0}>
             <Nav navbar>
-              {user && <LinkContainer to="/chat">
-                <NavItem eventKey={1}>Chat</NavItem>
-              </LinkContainer>}
-
               <LinkContainer to="/upload">
                 <NavItem eventKey={2}>Upload</NavItem>
               </LinkContainer>
 
               {!user &&
               <LinkContainer to="/login">
-                <NavItem eventKey={5}>Login</NavItem>
+                <NavItem eventKey={5}>로그인</NavItem>
+              </LinkContainer>}
+              {!user &&
+              <LinkContainer to="/register">
+                <NavItem eventKey={5}>회원가입</NavItem>
               </LinkContainer>}
               {user &&
               <LinkContainer to="/logout">
                 <NavItem eventKey={6} className="logout-link" onClick={this.handleLogout}>
-                  Logout
+                  로그아웃
                 </NavItem>
               </LinkContainer>}
             </Nav>
             {user &&
-            <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
+            <p className={styles.loggedInMessage + ' navbar-text'}><strong>{user.nicname || user.username}</strong>님,  잔액: {user.cash}원</p>}
           </CollapsibleNav>
         </Navbar>
 
