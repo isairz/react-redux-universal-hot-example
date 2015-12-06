@@ -24,6 +24,7 @@
   ],
   "main": "bin/server.js",
   "scripts": {
+    "forever": "forever start -c \"npm run start-prod-api\" ./ && forever start -c \"npm run start-prod\" ./",
     "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
     "start-prod": "better-npm-run start-prod",
     "start-prod-api": "better-npm-run start-prod-api",
@@ -44,8 +45,8 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 8080,
-        "APIPORT": 3030
+        "PORT": 4010,
+        "APIPORT": 4030
       }
     },
     "start-prod-api": {
@@ -53,7 +54,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
-        "APIPORT": 3030
+        "APIPORT": 4030
       }
     },
     "start-dev": {
