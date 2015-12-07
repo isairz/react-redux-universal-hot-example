@@ -33,6 +33,7 @@ app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
 app.use(Express.static(path.join(__dirname, '..', 'static')));
+app.use('/uploads', Express.static(path.join(__dirname, '..', 'uploads')));
 
 // Proxy to API server
 app.use('/api', (req, res) => {
