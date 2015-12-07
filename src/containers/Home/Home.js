@@ -46,10 +46,14 @@ export default class Home extends Component {
             </dd>
             <dd>
               <ol>
-                <li>Upload에서 출력하고 싶은 파일(현재 PDF만 지원)을 첨부</li>
+                <li>출력할 PDF를 준비한다. 다른 문서의 경우 pdf로 변환!</li>
+                <li>Upload에서 출력하고 싶은 파일을 첨부</li>
                 <li>출력 요구사항을 남깁니다. (ex: 내일 10시반에 찾으러 갈께요)</li>
                 <li>요청이 완료된 것을 확인한 뒤 인쇄소에서 쿨하게 찾아가면 끝-</li>
               </ol>
+            </dd>
+            <dd>
+              주의: 흑백 단면 인쇄만 지원해요
             </dd>
           </dl>
         </div>
