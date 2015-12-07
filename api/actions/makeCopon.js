@@ -9,7 +9,7 @@ export default function makeCopon(req, params) {
     const NN = parseInt(params[0], 10);
     const newCopons = [];
     function gen() {
-      const code = Math.floor(Math.random() * 10000000);
+      const code = 10000000 + Math.floor(Math.random() * 10000000);
       const copon = new Copon({code: code, username: ''});
 
       copon.save((err) => {
