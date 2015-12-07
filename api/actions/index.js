@@ -6,6 +6,7 @@ export register from './register';
 export user from './user';
 export print from './print';
 export press from './press';
+export printed from './printed';
 export upload from './upload';
 export makeCopon from './makeCopon';
 export * as widget from './widget/index';
