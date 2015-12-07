@@ -7,6 +7,7 @@ module.exports = model('Print', new Schema({
   press: String,
   path: String,
   originalName: String,
+  pages: Number,
   state: String,
   date: Date,
 }));

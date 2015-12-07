@@ -8,4 +8,5 @@ export Login from './Login/Login';
 export LoginSuccess from './LoginSuccess/LoginSuccess';
 export Survey from './Survey/Survey';
 export Upload from './Upload/Upload';
+export Copon from './Copon/Copon';
 export NotFound from './NotFound/NotFound';

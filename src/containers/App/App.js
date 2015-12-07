@@ -74,7 +74,12 @@ export default class App extends Component {
             <Nav navbar>
               {user &&
               <LinkContainer to="/upload">
-                <NavItem eventKey={2}>Upload</NavItem>
+                <NavItem eventKey={2}>인쇄하기</NavItem>
+              </LinkContainer>
+              }
+              {user &&
+              <LinkContainer to="/copon">
+                <NavItem eventKey={2}>쿠폰등록</NavItem>
               </LinkContainer>
               }
 

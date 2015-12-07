@@ -30,14 +30,13 @@ export default class Upload extends Component {
   }
 
   handleSubmit = (data) => {
-    console.log(data);
     /* data.file = Array.from(data.file).map(file => file.name).join(', ') || 'No Files Selected'; */
     this.props.upload(data);
     // this.props.initialize('upload', {});
   }
 
   render() {
-    const {user} = this.props;
+    const {user, print} = this.props;
     return (
       <div className="container">
         <h1>Upload</h1>
@@ -48,6 +47,7 @@ export default class Upload extends Component {
         </p>
 
         <UploadForm onSubmit={this.handleSubmit}/>
+        {print.error && <div className="alert alert-danger">{print.error}</div>}
 
         <table className="table table-striped">
           <thead>

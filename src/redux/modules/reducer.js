@@ -8,6 +8,7 @@ import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
 import print from './print';
+import copon from './copon';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   info,
   widgets,
   print,
+  copon,
 });

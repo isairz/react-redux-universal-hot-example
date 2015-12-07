@@ -11,7 +11,8 @@ export default function reducer(state = initialState, action = {}) {
     case UPLOAD:
       return {
         ...state,
-        uploading: true
+        uploading: true,
+        error: null,
       };
     case UPLOAD_SUCCESS:
       return {

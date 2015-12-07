@@ -54,11 +54,11 @@ class UploadForm extends Component {
         <form className="form-horizontal" id="uploadForm" onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="form-group">
             <div className={'col-sm-8 ' + styles.inputGroup}>
-              <FileInput className="form-control" id={file.name} placeholder="파일 첨부" {...file}/>
+              <FileInput accept=".pdf" className="form-control" id={file.name} placeholder="파일 첨부" {...file}/>
               {file.touched && file.error && <div>{file.error}</div>}
             </div>
           </div>
-          {renderInput(memo, '메모 ex) 한 부 인쇄 해 주세요.')}
+          {renderInput(memo, '메모 ex) 내일 10시반에 찾으러 갈께요~')}
           <div className="form-group">
             <div className={'col-sm-8 ' + styles.inputGroup}>
               <div className="radio">

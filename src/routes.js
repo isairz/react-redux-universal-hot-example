@@ -9,6 +9,7 @@ import {
     Login,
     LoginSuccess,
     Upload,
+    Copon,
     NotFound,
   } from 'containers';
 
@@ -43,6 +44,7 @@ export default (store) => {
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
         <Route path="upload" component={Upload}/>
+        <Route path="copon" component={Copon}/>
       </Route>
 
       { /* Routes */ }

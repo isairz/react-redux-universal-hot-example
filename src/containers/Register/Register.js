@@ -52,12 +52,6 @@ export default class Register extends Component {
                 인쇄물을 찾을 때 이용됩니다.
               </span>
             </div>
-            <div className="form-group">
-              <input type="text" ref="copon" placeholder="쿠폰번호" className="form-control"/>
-              <span className="help-block">
-                프로모션 쿠폰을 소지하고 계신 경우 입력해주세요. 없을 경우 비워두시면 됩니다.
-              </span>
-            </div>
             <button className="btn btn-success" onClick={this.handleSubmit}>
               <i className="fa fa-sign-in"/>{' '}
               가입

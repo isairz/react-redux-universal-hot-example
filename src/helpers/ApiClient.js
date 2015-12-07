@@ -53,7 +53,7 @@ class _ApiClient {
           }
         }
 
-        request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
+        request.end((err, { body, text } = {}) => err ? reject(text || body || err) : resolve(body));
       }));
   }
 }

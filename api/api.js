@@ -12,9 +12,12 @@ import http from 'http';
 import SocketIo from 'socket.io';
 import Account from './models/account';
 import Print from './models/print';
+import Press from './models/press';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import PdfInfo from 'pdfinfo';
+import path from 'path';
 
 const pretty = new PrettyError();
 const app = express();
@@ -48,18 +51,41 @@ app.post('/upload', upload.single('file'), (req, res) => {
     res.status(404).end();
     return;
   }
-  const print = new Print({
-    username: req.user.username,
-    nickname: req.user.nickname,
-    memo: req.body.memo,
-    press: req.body.press,
-    path: req.file.path,
-    originalName: req.file.originalname,
-    state: 'ready',
-    date: new Date(),
-  });
-  print.save(() => {
-    res.status(200).end();
+  const pdf = new PdfInfo(path.join(__dirname, '..', req.file.path));
+  pdf.info((err, meta) => {
+    if (err) {
+      res.status(500).end(err.message);
+      return;
+    }
+    const charge = meta.pages * 50;
+    if (req.user.cash < charge) {
+      res.status(500).end(meta.pages + '장을 출력하기 위한 잔액이 부족합니다');
+      return;
+    }
+    const print = new Print({
+      username: req.user.username,
+      nickname: req.user.nickname,
+      memo: req.body.memo,
+      press: req.body.press,
+      path: req.file.path,
+      originalName: req.file.originalname,
+      pages: meta.pages,
+      state: 'ready',
+      date: new Date(),
+    });
+    print.save((dberr) => {
+      if (dberr) {
+        res.status(500).end(dberr.message);
+        return;
+      }
+      const {username} = req.user;
+      const {press} = req.body;
+      Account.where({username: username}).update({$inc: {cash: -charge}})
+      .then(() => Press.where({name: press}).update({$inc: {cash: -charge}}))
+      .then(() => {
+        res.status(200).end();
+      });
+    });
   });
 });
 
