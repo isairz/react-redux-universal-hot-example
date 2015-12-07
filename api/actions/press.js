@@ -8,6 +8,9 @@ export default function press(req, params) {
       resolve({
         cash: 50000, // FIXME
         requested: prints.reverse().map(print => ({
+          username: print.username,
+          nickname: print.nickname,
+          memo: print.memo,
           filename: print.originalName,
           path: print.path,
           state: print.state,

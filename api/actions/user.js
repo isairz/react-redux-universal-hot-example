@@ -1,6 +1,6 @@
 import Print from '../models/print';
 
-export default function login(req, params) {
+export default function user(req, params) {
   return new Promise((resolve, reject) => {
     if (!req.user) {
       reject(new Error("Not Logged"));
