@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
 import config from '../../config';
 import { Register } from 'containers';
 
@@ -38,22 +39,25 @@ export default class Home extends Component {
             </dd>
           </dl>
 
-          <h3>어떻게 사용하나요? </h3>
+          <h3>어떻게 사용하나요?</h3>
           <dl>
             <dt>사용법</dt>
             <dd>
-              회원 가입을하고 쿠폰번호를 입력해요.
-            </dd>
-            <dd>
               <ol>
+                <li>회원 가입을하고 <LinkContainer to="copon">쿠폰번호</LinkContainer>를 입력해요.</li>
                 <li>출력할 PDF를 준비한다. 다른 문서의 경우 pdf로 변환!</li>
                 <li>Upload에서 출력하고 싶은 파일을 첨부</li>
                 <li>출력 요구사항을 남깁니다. (ex: 내일 10시반에 찾으러 갈께요)</li>
                 <li>요청이 완료된 것을 확인한 뒤 인쇄소에서 쿨하게 찾아가면 끝-</li>
               </ol>
             </dd>
+            <dt>주의사항</dt>
             <dd>
-              주의: 흑백 단면 인쇄만 지원해요
+              <ul>
+                <li>요청 취소가 안되요ㅜㅜ 요청할 때 확인하고 올려주세요</li>
+                <li>1페이지씩 단면인쇄만 지원해요</li>
+                <li>한장에 50원입니다</li>
+              </ul>
             </dd>
           </dl>
         </div>

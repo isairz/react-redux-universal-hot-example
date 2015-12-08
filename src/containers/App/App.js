@@ -106,6 +106,10 @@ export default class App extends Component {
         <div className={styles.appContent}>
           {this.props.children}
         </div>
+
+        <div className="well text-center">
+          문의사항은 hyuprint@gmail.com 으로
+        </div>
       </div>
     );
   }

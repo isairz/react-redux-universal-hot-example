@@ -39,12 +39,27 @@ export default class Upload extends Component {
     const {user, print} = this.props;
     return (
       <div className="container">
-        <h1>Upload</h1>
+        <h1> </h1>
         <DocumentMeta title={config.app.title + ': Upload'}/>
 
-        <p>
-          출력하고 싶은 파일을 업로드 하고 메시지를 남기세요.
-        </p>
+        <dl>
+          <dt>사용법</dt>
+          <dd>
+            <ol>
+              <li>Upload에서 출력하고 싶은 파일을 첨부</li>
+              <li>출력 요구사항을 남깁니다. (ex: 내일 10시반에 찾으러 갈께요)</li>
+              <li>요청이 완료된 것을 확인한 뒤 인쇄소에서 쿨하게 찾아가면 끝-</li>
+            </ol>
+          </dd>
+          <dt>주의사항</dt>
+          <dd>
+            <ul>
+              <li>요청 취소가 안되요ㅜㅜ 요청할 때 확인하고 올려주세요</li>
+              <li>1페이지씩 단면인쇄만 지원해요</li>
+              <li>한장에 50원입니다</li>
+            </ul>
+          </dd>
+        </dl>
 
         <UploadForm onSubmit={this.handleSubmit}/>
         {print.error && <div className="alert alert-danger">{print.error}</div>}

@@ -54,7 +54,7 @@ class UploadForm extends Component {
         <form className="form-horizontal" id="uploadForm" onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="form-group">
             <div className={'col-sm-8 ' + styles.inputGroup}>
-              <FileInput accept=".pdf" className="form-control" id={file.name} placeholder="파일 첨부" {...file}/>
+              <FileInput accept=".pdf" className="form-control" id={file.name} placeholder="파일 첨부 (pdf)" {...file}/>
               {file.touched && file.error && <div>{file.error}</div>}
             </div>
           </div>
@@ -63,14 +63,8 @@ class UploadForm extends Component {
             <div className={'col-sm-8 ' + styles.inputGroup}>
               <div className="radio">
                 <label>
-                  <input type="radio" name={press.name} id={press.name} value="hanpl" {...press}/>
-                  한양프라자 1층
-                </label>
-              </div>
-              <div className="radio">
-                <label>
-                  <input type="radio" name={press.name} id={press.name} value="ilgong" {...press}/>
-                  제1공학관 1층
+                  <input type="radio" name={press.name} id={press.name} value="gongcen" checked {...press}/>
+                  공업센터 4층
                 </label>
               </div>
             </div>
