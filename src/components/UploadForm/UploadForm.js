@@ -61,12 +61,10 @@ class UploadForm extends Component {
           {renderInput(memo, '메모 ex) 내일 10시반에 찾으러 갈께요~')}
           <div className="form-group">
             <div className={'col-sm-8 ' + styles.inputGroup}>
-              <div className="radio">
-                <label>
-                  <input type="radio" name={press.name} id={press.name} value="gongcen" checked {...press}/>
-                  공업센터 4층
-                </label>
-              </div>
+              <label>
+                <input type="hidden" name={press.name} id={press.name} value="gongcen" {...press}/>
+                  위치: 공업센터 4층
+              </label>
             </div>
           </div>
           <div className="form-group">

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { LinkContainer } from 'react-router-bootstrap';
 import config from '../../config';
 import { Register } from 'containers';
 
@@ -44,7 +43,7 @@ export default class Home extends Component {
             <dt>사용법</dt>
             <dd>
               <ol>
-                <li>회원 가입을하고 <LinkContainer to="copon">쿠폰번호</LinkContainer>를 입력해요.</li>
+                <li>회원 가입을하고 쿠폰번호를 입력해요.</li>
                 <li>출력할 PDF를 준비한다. 다른 문서의 경우 pdf로 변환!</li>
                 <li>Upload에서 출력하고 싶은 파일을 첨부</li>
                 <li>출력 요구사항을 남깁니다. (ex: 내일 10시반에 찾으러 갈께요)</li>

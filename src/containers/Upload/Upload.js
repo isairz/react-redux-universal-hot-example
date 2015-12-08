@@ -31,6 +31,8 @@ export default class Upload extends Component {
 
   handleSubmit = (data) => {
     /* data.file = Array.from(data.file).map(file => file.name).join(', ') || 'No Files Selected'; */
+    data.press = 'gongcen'; // FIXME
+    console.log(data);
     this.props.upload(data);
     // this.props.initialize('upload', {});
   }
@@ -76,7 +78,7 @@ export default class Upload extends Component {
           <tbody>
             {user && user.requested.map(request => (<tr>
               <td><TimeAgo date={request.date}/></td>
-              <td>{{'hanpl': '한양프라자', 'ilgong': '제1공학관'}[request.press]}</td>
+              <td>{{'hanpl': '한양프라자', 'ilgong': '제1공학관', 'gongcen': '공업센터 본관'}[request.press]}</td>
               <td>{request.filename}</td>
               <td>{request.state}</td>
             </tr>))}
